@@ -3,14 +3,16 @@ const upButton = document.getElementById('up-button');
 
 mainButton.addEventListener('click', function () {
 
-    this.innerHTML = "end turn"
+    this.innerHTML = "end turn";
+    defineStartPlayer(2);
 
-    if (playerOne.active) {
-        playerTwo.playerTurn();
-        playerOne.playerEndTurn();
-    } else if (!playerOne.active) {
-        playerOne.playerTurn();
-        playerTwo.playerEndTurn()
+    if (playerOrder[0].active) {
+        playerOrder[0].endTurn();
+        playerOrder[1].newTurn();
+
+    } else if (!playerOrder[0].active) {
+        playerOrder[0].newTurn();
+        playerOrder[1].endTurn();
     }
 })
 

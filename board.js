@@ -61,15 +61,15 @@ for (let x = 0; x < mapSize; x++) {
 }
 
 
-const randomizer = () => {
-    return cells[Math.floor(Math.random() * cells.length)];
+const randomizer = (array) => {
+    return array[Math.floor(Math.random() * array.length)];
 }
 
 const randomDisabledCells = (number = 2) => {
     let i = 0;
 
     while (i < number) {
-        const cell = randomizer();
+        const cell = randomizer(cells);
         if (!cell.isDisabled) {
             cell.disable();
             i++;
@@ -82,7 +82,7 @@ const randomGuns = (number = 4) => {
     let i = 0;
 
     while (i < number) {
-        const cellArr = [randomizer(), randomizer(), randomizer(), randomizer()]
+        const cellArr = [randomizer(cells), randomizer(cells), randomizer(cells), randomizer(cells)];
 
         cellArr.forEach((cell, index) => {
             if (!cell.isDisabled && !cell.hasItem) {
@@ -97,7 +97,7 @@ const randomPlayers = (number = 2) => {
     let i = 0;
 
     while (i < number) {
-        const cellArr = [randomizer(), randomizer()]
+        const cellArr = [randomizer(cells), randomizer(cells)];
 
         cellArr.forEach((cell, index) => {
             if (!cell.isDisabled && !cell.hasItem && !cell.hasPlayer) {
