@@ -32,22 +32,18 @@ class Cell {
         this.hasPlayer = true;
     }
 
-    removePlayer(player) {
-        if (this.divCell.contains(player.spanPlayer)) {
-            this.divCell.removeChild(player.spanPlayer);
-        }
-        this.hasPlayer = false;
-    }
-    
-    
     movePlayer(player) {
-        if(this.hasPlayer) {
-            this.removePlayer(player);
-        }
-        
-        if(this.x === player.x && this.y === player.y) {
+
+        if (this.x === player.x && this.y === player.y && !this.isDisabled) {
             this.addPlayer(player);
-        }
+            player.stepCounter = true;
+            
+
+        } else if (this.x === player.x && this.y === player.y && this.isDisabled) {
+            player.canMove = false;
+            player.stepCounter = false;
+            console.log('try another button');
+        } 
     }
 
     disable() {

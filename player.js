@@ -8,6 +8,8 @@ class Player {
         this.gun = "none";
         this.color = color;
         this.active = false;
+        this.canMove = true;
+        this.stepCounter = true;
         this.x = null;
         this.y = null;
         this.spanPlayer = document.createElement('span');
@@ -18,6 +20,7 @@ class Player {
     newTurn() {
         this.active = true;
         this.spanPlayer.classList.add('playing');
+        this.move = 3;
     }
 
     endTurn() {
@@ -27,26 +30,53 @@ class Player {
 
     moveOn(direction) {
 
-        if (this.move > 0 && this.active) {
-            this.move -= 1;
-
+        if (this.move > 0) {
             switch (direction) {
                 case 'up':
-                    this.x --;
+                    if (this.canMove) {
+                        this.x--;
+                    } else {
+                        this.x -= 2;
+                        this.canMove = true;
+                    }
                     break;
-                case 'right' :
-                    this.y ++;
+
+                case 'right':
+                    if (this.canMove) {
+                        this.y++;
+                    } else {
+                        this.y += 2;
+                        this.canMove = true;
+                    }
                     break;
+
                 case 'down':
-                    this.x ++;
+                    if (this.canMove) {
+                        this.x++;
+                    } else {
+                        this.x += 2;
+                        this.canMove = true;
+                    }
+
                     break;
+
                 case 'left':
-                    this.y --;
+                    if (this.canMove) {
+                        this.y--;
+                    } else {
+                        this.y -= 2;
+                        this.canMove = true;
+                    }
                     break;
+
                 default:
                     console.log('wrong type');
             }
-            
+
+            if (this.stepCounter) {
+                this.move--;
+            }
+
         } else {
             console.log("no player or can't move anymore")
         }
