@@ -38,7 +38,17 @@ class Cell {
         }
         this.hasPlayer = false;
     }
-
+    
+    
+    movePlayer(player) {
+        if(this.hasPlayer) {
+            this.removePlayer(player);
+        }
+        
+        if(this.x === player.x && this.y === player.y) {
+            this.addPlayer(player);
+        }
+    }
 
     disable() {
         this.divCell.classList.add('disabled');

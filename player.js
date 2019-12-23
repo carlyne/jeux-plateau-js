@@ -3,17 +3,13 @@ const playerOrder = [];
 
 class Player {
     constructor(color) {
-        this.move = 4;
+        this.move = 3;
         this.health = 100;
         this.gun = "none";
         this.color = color;
         this.active = false;
         this.x = null;
         this.y = null;
-        this.up = false;
-        this.down = false;
-        this.left = false;
-        this.right = false;
         this.spanPlayer = document.createElement('span');
         this.spanPlayer.classList.add('player');
         this.spanPlayer.style.backgroundColor = this.color;
@@ -29,17 +25,30 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    moveCost() {
-        if (this.move > 0) {
-            this.move -= 1;
-        } else {
-            console.log("can't move anymore")
-        }
-    }
+    moveOn(direction) {
 
-    movePlayer() {
-        if (this.up) {
-            this.x -= 1;
+        if (this.move > 0 && this.active) {
+            this.move -= 1;
+
+            switch (direction) {
+                case 'up':
+                    this.x --;
+                    break;
+                case 'right' :
+                    this.y ++;
+                    break;
+                case 'down':
+                    this.x ++;
+                    break;
+                case 'left':
+                    this.y --;
+                    break;
+                default:
+                    console.log('wrong type');
+            }
+            
+        } else {
+            console.log("no player or can't move anymore")
         }
     }
 }

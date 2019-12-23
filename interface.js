@@ -1,5 +1,15 @@
 const mainButton = document.getElementById('main-button');
+
 const upButton = document.getElementById('up-button');
+const rightButton = document.getElementById('right-button');
+const downButton = document.getElementById('down-button');
+const leftButton = document.getElementById('left-button');
+
+const cellUpdate = (player) => {
+    cells.forEach(cell => {
+        cell.movePlayer(player);
+    });
+}
 
 mainButton.addEventListener('click', function () {
 
@@ -17,29 +27,8 @@ mainButton.addEventListener('click', function () {
 })
 
 upButton.addEventListener('click', e => {
-    if (playerOne.active) {
-        playerOne.moveCost();
-        if (playerOne.move <= 0) {
-            console.log("can't move anymore")
-        } else {
-            playerOne.up = true;
-            playerOne.movePlayer();
-
-            cells.forEach(cell => {
-                if (cell.hasPlayer) {
-                    cell.removePlayer(playerOne);
-                }
-            });
-
-            cells.forEach(cell => {
-                if (cell.x === playerOne.x && cell.y === playerOne.y) {
-                    cell.addPlayer(playerOne);
-                }
-            });
-        };
-
-    } else {
-        console.log('no player active')
-    }
-
+    players.forEach(player => {
+        player.moveOn('up');
+        cellUpdate(player);
+    })
 })
