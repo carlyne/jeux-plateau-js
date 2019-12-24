@@ -11,6 +11,7 @@ class Cell {
         this.y = y;
         this.hasItem = false;
         this.hasPlayer = false;
+        this.hasPlayerPlaying = 0;
         this.divCell = document.createElement('div');
         this.divCell.id = `cell-${this.id}`;
         this.divCell.classList.add('cell');
@@ -30,20 +31,27 @@ class Cell {
         player.y = this.y;
 
         this.hasPlayer = true;
+        this.hasPlayerPlaying++;
     }
 
     movePlayer(player) {
 
-        if (this.x === player.x && this.y === player.y && !this.isDisabled) {
+        if (this.x === player.x && this.y === player.y && !this.isDisabled && this.hasPlayerPlaying < 1) {
             this.addPlayer(player);
-            player.stepCounter = true;
+            player.stepCounter = true;    
             
-
+            console.log(this.hasPlayerPlaying);
+            
         } else if (this.x === player.x && this.y === player.y && this.isDisabled) {
             player.canMove = false;
             player.stepCounter = false;
             console.log('try another button');
-        } 
+            
+        } else if (this.x === player.x && this.y === player.y && this.hasPlayerPlaying >= 1) {
+            player.canMove = false;
+            player.stepCounter = false;
+            console.log('fight');
+        }
     }
 
     disable() {

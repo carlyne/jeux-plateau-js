@@ -81,6 +81,10 @@ class Player {
             console.log("no player or can't move anymore")
         }
     }
+    
+    get playerColor() {
+        return this.color;
+    }
 }
 
 const playerOne = new Player('red');
