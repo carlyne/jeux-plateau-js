@@ -5,6 +5,7 @@ class Player {
     constructor(color) {
         this.id = null;
         this.move = 3;
+        this.translate = 0;
         this.health = 100;
         this.gun = "none";
         this.color = color;
@@ -27,7 +28,7 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    moveOn(direction) {
+    /*moveOn(direction) {
 
         if (this.move > 0) {
             switch (direction) {
@@ -79,8 +80,23 @@ class Player {
         } else {
             console.log("no player or can't move anymore")
         }
+    }*/
+
+    moveOn(direction) {
+        if (this.move > 0) {
+            switch (direction) {
+                case 'up':
+                    this.id = mapSize;
+                    
+                    
+                   
+                case 'down':
+                    this.id = mapSize;
+
+            }
+        }
     }
-    
+
     get playerColor() {
         return this.color;
     }

@@ -5,7 +5,7 @@ const rightButton = document.getElementById('right-button');
 const downButton = document.getElementById('down-button');
 const leftButton = document.getElementById('left-button');
 
-const cellUpdate = player => {
+/*const cellUpdate = player => {
     cells.forEach(cell => {
         cell.movePlayer(player);
     });
@@ -16,7 +16,7 @@ const playerUpdate = (direction, player) => {
         player.moveOn(direction);
         cellUpdate(player);
     }
-}
+}*/
 
 
 mainButton.addEventListener('click', function () {
@@ -36,25 +36,37 @@ mainButton.addEventListener('click', function () {
 
 
 upButton.addEventListener('click', function () {
-    players.forEach(player => {
+    /*players.forEach(player => {
         playerUpdate('up', player);
+    })*/
+    
+    let currentPlayer = null;
+    
+    players.forEach(player => {
+        if(player.active) {
+            player.moveOn('up');
+        }
     })
 })
 
-rightButton.addEventListener('click', e => {
-    players.forEach(player => {
-        playerUpdate('right', player);
-    })
-})
+/*rightButton.addEventListener('click', e => {
+    
+    
+    
+})*/
 
 downButton.addEventListener('click', e => {
+    let currentPlayer = null;
+    
     players.forEach(player => {
-        playerUpdate('down', player);
+        if(player.active) {
+            player.moveOn('down');
+        }
     })
 })
 
-leftButton.addEventListener('click', e => {
+/*leftButton.addEventListener('click', e => {
     players.forEach(player => {
         playerUpdate('left', player);
     })
-})
+})*/

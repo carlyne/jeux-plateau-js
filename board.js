@@ -29,10 +29,6 @@ class Cell {
         this.hasPlayer = true;
     }
 
-    disable() {
-        this.divCell.classList.add('disabled');
-    }
-
     checkPlayer(player) {
         if (this.id === player.id) {
             this.hasPlayer = true;
@@ -49,18 +45,30 @@ class Cell {
         }
     }
 
+    disable() {
+        this.divCell.classList.add('disabled');
+    }
+
+    get isDisabled() {
+        if (this.divCell.classList.contains('disabled')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     findNearBy() {
-        let cellN = (this.id - mapSize);
-        this.nearBy.push(cellN);
+        let n = (this.id - mapSize);
+        this.nearBy.push(n);
 
-        let cellE = (this.id + 1);
-        this.nearBy.push(cellE);
+        let e = (this.id + 1);
+        this.nearBy.push(e);
 
-        let cellS = (this.id + mapSize);
-        this.nearBy.push(cellS);
+        let s = (this.id + mapSize);
+        this.nearBy.push(s);
 
-        let cellO = (this.id - 1);
-        this.nearBy.push(cellO);
+        let o = (this.id - 1);
+        this.nearBy.push(o);
     }
 
     get allNearBy() {
@@ -97,13 +105,7 @@ class Cell {
         }
     }*/
 
-    get isDisabled() {
-        if (this.divCell.classList.contains('disabled')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 }
 
 
@@ -175,13 +177,3 @@ const renderBoard = () => {
 }
 
 renderBoard();
-
-cells.forEach(cell => {
-    cell.divCell.addEventListener('click', function () {
-        cell.nearBy.forEach(near => {
-            console.log(near);
-            this.style.backgroundColor = 'blue';
-            near.style.backgroundColor = 'red';
-        })
-    })
-})

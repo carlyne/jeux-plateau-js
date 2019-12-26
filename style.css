@@ -7,7 +7,6 @@ body {
 
 * {
     box-sizing: border-box;
-    padding: 0;
     margin: 0;
 }
 
@@ -25,7 +24,7 @@ div.cell {
     height: 64px;
     border: 1px solid #161616;
     margin: 0;
-    padding: 0;
+    padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,14 +35,14 @@ div.cell {
 }
 
 span.guns {
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: 100%;
     border-radius: 50px;
 }
 
 span.player {
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: 100%;
     border-radius: 2px;
 }
 
