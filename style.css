@@ -2,11 +2,18 @@ body {
     width: 100%;
     height: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 main#board {
-    width: 640px;
-    height: 640px;
+    width: 514px;
+    height: 514px;
     border: 1px solid #161616;
     margin: 50px auto;
     display: flex;
@@ -14,8 +21,8 @@ main#board {
 }
 
 div.cell {
-    width: 62px;
-    height: 62px;
+    width: 64px;
+    height: 64px;
     border: 1px solid #161616;
     margin: 0;
     padding: 0;
