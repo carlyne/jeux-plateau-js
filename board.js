@@ -2,6 +2,7 @@ const board = document.getElementById('board');
 const cells = [];
 
 const mapSize = 8;
+const cellSize = 64;
 let cellId = 1;
 
 class Cell {

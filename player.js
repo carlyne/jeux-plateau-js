@@ -82,20 +82,45 @@ class Player {
         }
     }*/
 
-    moveOn(direction) {
-        if (this.move > 0) {
-            switch (direction) {
-                case 'up':
-                    this.id = mapSize;
-                    
-                    
-                   
-                case 'down':
-                    this.id = mapSize;
-
-            }
+    moveUp() {
+        if (this.translate <= 0) {
+            this.translate -= cellSize;
+            
+            this.spanPlayer.style.transform = `translateY(-${Math.abs(this.translate)}px)`;
+            
+            console.log('up: ' + this.translate);
+            
+        } else {
+            this.translate -= cellSize;
+            
+            this.spanPlayer.style.transform = `translateY(${this.translate}px)`;
+            
+            console.log('up0: ' + this.translate);
         }
+        
+        this.id -= mapSize;
+        
     }
+    
+    moveDown() {
+        if (this.translate < 0) {
+            this.translate += cellSize;
+            
+            this.spanPlayer.style.transform = `translateY(-${Math.abs(this.translate)}px)`;
+            
+            console.log('down: ' + Math.abs(this.translate));
+            
+        } else {
+            this.translate += cellSize;
+            
+            this.spanPlayer.style.transform = `translateY(${this.translate}px)`;
+            
+            console.log('down0: ' + this.translate);
+        }
+        
+        this.id += mapSize;
+    }
+    
 
     get playerColor() {
         return this.color;

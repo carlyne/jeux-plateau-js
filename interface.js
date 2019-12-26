@@ -44,7 +44,7 @@ upButton.addEventListener('click', function () {
     
     players.forEach(player => {
         if(player.active) {
-            player.moveOn('up');
+            player.moveUp();
         }
     })
 })
@@ -60,7 +60,7 @@ downButton.addEventListener('click', e => {
     
     players.forEach(player => {
         if(player.active) {
-            player.moveOn('down');
+            player.moveDown();
         }
     })
 })
