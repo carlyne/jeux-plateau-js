@@ -3,6 +3,7 @@ const playerOrder = [];
 
 class Player {
     constructor(color) {
+        this.id = null;
         this.move = 3;
         this.health = 100;
         this.gun = "none";
@@ -10,8 +11,6 @@ class Player {
         this.active = false;
         this.canMove = true;
         this.stepCounter = true;
-        this.x = null;
-        this.y = null;
         this.spanPlayer = document.createElement('span');
         this.spanPlayer.classList.add('player');
         this.spanPlayer.style.backgroundColor = this.color;
