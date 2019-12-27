@@ -6,7 +6,7 @@ const downButton = document.getElementById('down-button');
 const leftButton = document.getElementById('left-button');
 
 let currentPlayer = null;
-let currentNearBy = null;
+let currentNearBy = [];
 
 const findActive = () => {
     players.forEach(player => {
@@ -21,10 +21,14 @@ const findCurrentNearBy = (player) => {
             currentNearBy = cell.nearBy;
         }
     })
+    
+    console.log(currentNearBy);
 }
 
 
 mainButton.addEventListener('click', function () {
+    
+
 
     this.innerHTML = "end turn";
     defineStartPlayer(2);
@@ -37,6 +41,9 @@ mainButton.addEventListener('click', function () {
         playerOrder[0].newTurn();
         playerOrder[1].endTurn();
     }
+    
+        findActive();
+    console.log('current id: ' + currentPlayer.id);
 })
 
 
@@ -44,20 +51,37 @@ upButton.addEventListener('click', function () {
     findActive();
 
     findCurrentNearBy(currentPlayer);
+    
+  
+    
     currentPlayer.moveUp(currentNearBy);
+      console.log('id: ' + currentPlayer.id);
 })
 
 rightButton.addEventListener('click', e => {
     findActive();
-    currentPlayer.moveRight();
+
+    findCurrentNearBy(currentPlayer);
+    
+    currentPlayer.moveRight(currentNearBy);
+    console.log('id: ' + currentPlayer.id);
 })
 
 downButton.addEventListener('click', e => {
     findActive();
-    currentPlayer.down();
+
+    findCurrentNearBy(currentPlayer);
+    
+    
+    currentPlayer.moveDown(currentNearBy);
+    console.log('id: ' + currentPlayer.id);
 })
 
 leftButton.addEventListener('click', e => {
     findActive();
-    currentPlayer.moveLeft();
+
+    findCurrentNearBy(currentPlayer);
+
+    currentPlayer.moveLeft(currentNearBy);
+        console.log('id: ' + currentPlayer.id);
 })

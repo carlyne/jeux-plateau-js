@@ -31,7 +31,7 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    detect(nearby) {
+    detect(nearby) {   
         nearby.forEach(near => {
             if (near.isDisable) {
                 busyNear = near.id;
@@ -41,13 +41,10 @@ class Player {
 
     moveUp(nearby) {
         if (this.move > 0) {
-            console.log('id player: ' + this.id);
             this.detect(nearby);
-            console.log('dsable cell: ' + busyNear);
+            let up = (this.id - mapSize);
 
-            let test = (this.id - mapSize);
-
-            if (test === busyNear) {
+            if (up === busyNear) {
                 console.log('no move');
 
             } else {
@@ -60,7 +57,7 @@ class Player {
                     this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
                 }
                 this.move--;
-                this.id -= mapSize;
+                this.id = up;
 
             }
         } else {
@@ -68,40 +65,79 @@ class Player {
         }
     }
 
-    down() {
-        if (this.translateY < 0) {
-            this.translateY += cellSize;
-            this.spanPlayer.style.transform = `translate(${this.translateX}px, -${Math.abs(this.translateY)}px)`;
+    moveDown(nearby) {
+        if (this.move > 0) {
+            this.detect(nearby);
+            let down = (this.id + mapSize);
 
+            if (down === busyNear) {
+                console.log('no move');
+
+            } else {
+                if (this.translateY < 0) {
+                    this.translateY += cellSize;
+                    this.spanPlayer.style.transform = `translate(${this.translateX}px, -${Math.abs(this.translateY)}px)`;
+
+                } else {
+                    this.translateY += cellSize;
+                    this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                }
+                this.id = down;
+                this.move--;
+            }
         } else {
-            this.translateY += cellSize;
-            this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+            console.log('no more move');
         }
-        this.id += mapSize;
     }
 
-    moveRight() {
-        if (this.translateX < 0) {
-            this.translateX += cellSize;
-            this.spanPlayer.style.transform = `translate(-${Math.abs(this.translateX)}px, ${this.translateY}px)`;
+    moveRight(nearby) {
+        if (this.move > 0) {
+            this.detect(nearby);
+            let right = (this.id + 1);
 
+            if (right === busyNear) {
+                console.log('no move');
+
+            } else {
+                if (this.translateX < 0) {
+                    this.translateX += cellSize;
+                    this.spanPlayer.style.transform = `translate(-${Math.abs(this.translateX)}px, ${this.translateY}px)`;
+
+                } else {
+                    this.translateX += cellSize;
+                    this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                }
+                this.id = right;
+                this.move--;
+            }
         } else {
-            this.translateX += cellSize;
-            this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+            console.log('no more move');
         }
-        this.id += mapSize;
     }
 
-    moveLeft() {
-        if (this.translateX < 0) {
-            this.translateX -= cellSize;
-            this.spanPlayer.style.transform = `translate(-${Math.abs(this.translateX)}px, ${this.translateY}px)`;
+    moveLeft(nearby) {
+        if (this.move > 0) {
+            this.detect(nearby);
+            let left = (this.id - 1);
 
+            if (left === busyNear) {
+                console.log('no move');
+
+            } else {
+                if (this.translateX < 0) {
+                    this.translateX -= cellSize;
+                    this.spanPlayer.style.transform = `translate(-${Math.abs(this.translateX)}px, ${this.translateY}px)`;
+
+                } else {
+                    this.translateX -= cellSize;
+                    this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                }
+                this.id = left;
+                this.move--;
+            }
         } else {
-            this.translateX -= cellSize;
-            this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+            console.log('no more move');
         }
-        this.id += mapSize;
     }
 
 
