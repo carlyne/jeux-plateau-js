@@ -44,11 +44,7 @@ upButton.addEventListener('click', function () {
     findActive();
 
     findCurrentNearBy(currentPlayer);
-    currentPlayer.detect(currentNearBy);
-    
-    currentPlayer.moveUp();
-
-    console.log(currentNearBy);
+    currentPlayer.moveUp(currentNearBy);
 })
 
 rightButton.addEventListener('click', e => {

@@ -1,5 +1,6 @@
 const players = [];
 const playerOrder = [];
+let busyNear = null;
 
 class Player {
     constructor(color) {
@@ -31,25 +32,39 @@ class Player {
     }
 
     detect(nearby) {
-        nearby.forEach(near => {   
+        nearby.forEach(near => {
             if (near.isDisable) {
-                this.canMove = false;
+                busyNear = near.id;
             }
         })
     }
 
-    moveUp() {
-        if (this.move > 0 && this.canMove) {
-            if (this.translateY <= 0) {
-                this.translateY -= cellSize;
-                this.spanPlayer.style.transform = `translate(${this.translateX}px, -${Math.abs(this.translateY)}px)`;
+    moveUp(nearby) {
+        if (this.move > 0) {
+            console.log('id player: ' + this.id);
+            this.detect(nearby);
+            console.log('dsable cell: ' + busyNear);
+
+            let test = (this.id - mapSize);
+
+            if (test === busyNear) {
+                console.log('no move');
 
             } else {
-                this.translateY -= cellSize;
-                this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                if (this.translateY <= 0) {
+                    this.translateY -= cellSize;
+                    this.spanPlayer.style.transform = `translate(${this.translateX}px, -${Math.abs(this.translateY)}px)`;
+
+                } else {
+                    this.translateY -= cellSize;
+                    this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                }
+                this.move--;
+                this.id -= mapSize;
+
             }
-            this.id -= mapSize;
-            this.move--;
+        } else {
+            console.log('no more move');
         }
     }
 
