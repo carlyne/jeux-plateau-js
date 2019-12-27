@@ -10,6 +10,7 @@ class Cell {
         this.id = cellId++;
         this.hasGun = false;
         this.hasPlayer = false;
+        this.isDisable = false;
         this.nearBy = [];
         this.divCell = document.createElement('div');
         this.divCell.id = `cell-${this.id}`;
@@ -48,6 +49,7 @@ class Cell {
 
     disable() {
         this.divCell.classList.add('disabled');
+        this.isDisable = true;
     }
 
     get isDisabled() {
@@ -78,35 +80,13 @@ class Cell {
         cells.forEach(cell => {
             this.nearBy.forEach(nearCell => {
                 if (cell.id === nearCell) {
-                    neighbourg.push(cell.divCell);
+                    neighbourg.push(cell);
                 }
             })
         })
 
         this.nearBy = neighbourg;
     }
-
-    /*movePlayer(player) {
-
-        if (this.x === player.x && this.y === player.y && !this.isDisabled && this.hasPlayerPlaying < 1) {
-            this.addPlayer(player);
-            player.stepCounter = true;
-
-            console.log(this.hasPlayerPlaying);
-
-        } else if (this.x === player.x && this.y === player.y && this.isDisabled) {
-            player.canMove = false;
-            player.stepCounter = false;
-            console.log('try another button');
-
-        } else if (this.x === player.x && this.y === player.y && this.hasPlayerPlaying >= 1) {
-            player.canMove = false;
-            player.stepCounter = false;
-            console.log('fight');
-        }
-    }*/
-
-
 }
 
 

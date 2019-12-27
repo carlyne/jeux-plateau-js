@@ -5,7 +5,9 @@ class Player {
     constructor(color) {
         this.id = null;
         this.move = 3;
-        this.translate = 0;
+        this.canMove = true;
+        this.translateY = 0;
+        this.translateX = 0;
         this.health = 100;
         this.gun = "none";
         this.color = color;
@@ -28,99 +30,65 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    /*moveOn(direction) {
-
-        if (this.move > 0) {
-            switch (direction) {
-                case 'up':
-                    if (this.canMove) {
-                        this.x--;
-                    } else {
-                        this.x -= 2;
-                        this.canMove = true;
-                    }
-                    break;
-
-                case 'right':
-                    if (this.canMove) {
-                        this.y++;
-                    } else {
-                        this.y += 2;
-                        this.canMove = true;
-                    }
-                    break;
-
-                case 'down':
-                    if (this.canMove) {
-                        this.x++;
-                    } else {
-                        this.x += 2;
-                        this.canMove = true;
-                    }
-
-                    break;
-
-                case 'left':
-                    if (this.canMove) {
-                        this.y--;
-                    } else {
-                        this.y -= 2;
-                        this.canMove = true;
-                    }
-                    break;
-
-                default:
-                    console.log('wrong type');
+    detect(nearby) {
+        nearby.forEach(near => {   
+            if (near.isDisable) {
+                this.canMove = false;
             }
-
-            if (this.stepCounter) {
-                this.move--;
-            }
-
-        } else {
-            console.log("no player or can't move anymore")
-        }
-    }*/
+        })
+    }
 
     moveUp() {
-        if (this.translate <= 0) {
-            this.translate -= cellSize;
-            
-            this.spanPlayer.style.transform = `translateY(-${Math.abs(this.translate)}px)`;
-            
-            console.log('up: ' + this.translate);
-            
-        } else {
-            this.translate -= cellSize;
-            
-            this.spanPlayer.style.transform = `translateY(${this.translate}px)`;
-            
-            console.log('up0: ' + this.translate);
+        if (this.move > 0 && this.canMove) {
+            if (this.translateY <= 0) {
+                this.translateY -= cellSize;
+                this.spanPlayer.style.transform = `translate(${this.translateX}px, -${Math.abs(this.translateY)}px)`;
+
+            } else {
+                this.translateY -= cellSize;
+                this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+            }
+            this.id -= mapSize;
+            this.move--;
         }
-        
-        this.id -= mapSize;
-        
     }
-    
-    moveDown() {
-        if (this.translate < 0) {
-            this.translate += cellSize;
-            
-            this.spanPlayer.style.transform = `translateY(-${Math.abs(this.translate)}px)`;
-            
-            console.log('down: ' + Math.abs(this.translate));
-            
+
+    down() {
+        if (this.translateY < 0) {
+            this.translateY += cellSize;
+            this.spanPlayer.style.transform = `translate(${this.translateX}px, -${Math.abs(this.translateY)}px)`;
+
         } else {
-            this.translate += cellSize;
-            
-            this.spanPlayer.style.transform = `translateY(${this.translate}px)`;
-            
-            console.log('down0: ' + this.translate);
+            this.translateY += cellSize;
+            this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
         }
-        
         this.id += mapSize;
     }
-    
+
+    moveRight() {
+        if (this.translateX < 0) {
+            this.translateX += cellSize;
+            this.spanPlayer.style.transform = `translate(-${Math.abs(this.translateX)}px, ${this.translateY}px)`;
+
+        } else {
+            this.translateX += cellSize;
+            this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+        }
+        this.id += mapSize;
+    }
+
+    moveLeft() {
+        if (this.translateX < 0) {
+            this.translateX -= cellSize;
+            this.spanPlayer.style.transform = `translate(-${Math.abs(this.translateX)}px, ${this.translateY}px)`;
+
+        } else {
+            this.translateX -= cellSize;
+            this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+        }
+        this.id += mapSize;
+    }
+
 
     get playerColor() {
         return this.color;

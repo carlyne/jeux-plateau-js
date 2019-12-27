@@ -5,18 +5,23 @@ const rightButton = document.getElementById('right-button');
 const downButton = document.getElementById('down-button');
 const leftButton = document.getElementById('left-button');
 
-/*const cellUpdate = player => {
-    cells.forEach(cell => {
-        cell.movePlayer(player);
-    });
+let currentPlayer = null;
+let currentNearBy = null;
+
+const findActive = () => {
+    players.forEach(player => {
+        if (player.active)
+            return currentPlayer = player;
+    })
 }
 
-const playerUpdate = (direction, player) => {
-    if (player.active) {
-        player.moveOn(direction);
-        cellUpdate(player);
-    }
-}*/
+const findCurrentNearBy = (player) => {
+    cells.forEach(cell => {
+        if (cell.id === player.id) {
+            currentNearBy = cell.nearBy;
+        }
+    })
+}
 
 
 mainButton.addEventListener('click', function () {
@@ -36,37 +41,27 @@ mainButton.addEventListener('click', function () {
 
 
 upButton.addEventListener('click', function () {
-    /*players.forEach(player => {
-        playerUpdate('up', player);
-    })*/
+    findActive();
+
+    findCurrentNearBy(currentPlayer);
+    currentPlayer.detect(currentNearBy);
     
-    let currentPlayer = null;
-    
-    players.forEach(player => {
-        if(player.active) {
-            player.moveUp();
-        }
-    })
+    currentPlayer.moveUp();
+
+    console.log(currentNearBy);
 })
 
-/*rightButton.addEventListener('click', e => {
-    
-    
-    
-})*/
+rightButton.addEventListener('click', e => {
+    findActive();
+    currentPlayer.moveRight();
+})
 
 downButton.addEventListener('click', e => {
-    let currentPlayer = null;
-    
-    players.forEach(player => {
-        if(player.active) {
-            player.moveDown();
-        }
-    })
+    findActive();
+    currentPlayer.down();
 })
 
-/*leftButton.addEventListener('click', e => {
-    players.forEach(player => {
-        playerUpdate('left', player);
-    })
-})*/
+leftButton.addEventListener('click', e => {
+    findActive();
+    currentPlayer.moveLeft();
+})
