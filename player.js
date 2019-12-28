@@ -2,6 +2,9 @@ const players = [];
 const playerOrder = [];
 let busyNear = null;
 
+let currentPlayer = null;
+let secondPlayer = null;
+
 class Player {
     constructor(color) {
         this.id = null;
@@ -31,17 +34,8 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    /*detect(nearby) {
-        nearby.forEach(near => {
-            if (near.isDisable) {
-                busyNear = near.id;
-            } 
-        })
-    }*/
-
-    moveUp(nearby) {
+    moveUp() {
         if (this.move > 0) {
-            //this.detect(nearby);
             let up = (this.id - mapSize);
 
             if (up === busyNear) {
@@ -66,9 +60,8 @@ class Player {
         }
     }
 
-    moveDown(nearby) {
+    moveDown() {
         if (this.move > 0) {
-            //this.detect(nearby);
             let down = (this.id + mapSize);
 
             if (down === busyNear) {
@@ -91,9 +84,8 @@ class Player {
         }
     }
 
-    moveRight(nearby) {
+    moveRight() {
         if (this.move > 0) {
-           // this.detect(nearby);
             let right = (this.id + 1);
 
             if (right === busyNear) {
@@ -116,9 +108,8 @@ class Player {
         }
     }
 
-    moveLeft(nearby) {
+    moveLeft() {
         if (this.move > 0) {
-           // this.detect(nearby);
             let left = (this.id - 1);
 
             if (left === busyNear) {
@@ -153,10 +144,10 @@ const playerTwo = new Player('yellow');
 players.push(playerOne);
 players.push(playerTwo);
 
-let defineStartPlayer = (number = 2) => {
+let defineStartPlayer = () => {
     i = 0;
 
-    while (i < number) {
+    while (i < 2) {
         let playerArr = [randomizer(players), randomizer(players)];
 
         if (playerArr[0].color != playerArr[1].color) {
@@ -165,5 +156,7 @@ let defineStartPlayer = (number = 2) => {
             i++;
         }
     }
-
+    
+    currentPlayer = playerOrder[0];
+    secondPlayer = playerOrder[1];
 }
