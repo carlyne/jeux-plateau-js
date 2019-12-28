@@ -6,29 +6,51 @@ const downButton = document.getElementById('down-button');
 const leftButton = document.getElementById('left-button');
 
 let currentPlayer = null;
-let currentNearBy = [];
+let secondPlayer = null;
+let currentNearBy = null;
+let actionField = [];
 
 const findActive = () => {
     players.forEach(player => {
-        if (player.active)
-            return currentPlayer = player;
+        if (player.active) {
+            currentPlayer = player;
+
+        } else {
+            secondPlayer = player;
+        }
     })
 }
 
-const findCurrentNearBy = (player) => {
+const findCurrentNearBy = (currentP, secondP) => {
     cells.forEach(cell => {
-        if (cell.id === player.id) {
+        if (cell.id === currentP.id) {
             currentNearBy = cell.nearBy;
         }
+        cell.checkPlayer(secondP);
     })
-    
-    console.log(currentNearBy);
+}
+
+const nearByOf = nearby => {
+    nearby.forEach(near => {
+        actionField.push(near.nearBy);
+    })
+}
+
+const detectAround = nearBy => {
+    nearBy.forEach(near => {
+        if (near.hasPlayer) {
+            console.log('an ennemi !');
+            busyNear = near.id;
+        } else if (near.hasGun) {
+            console.log('oh a gun');
+        } else if (near.isDisabled) {
+            busyNear = near.id;
+        }
+    })
 }
 
 
 mainButton.addEventListener('click', function () {
-    
-
 
     this.innerHTML = "end turn";
     defineStartPlayer(2);
@@ -41,38 +63,52 @@ mainButton.addEventListener('click', function () {
         playerOrder[0].newTurn();
         playerOrder[1].endTurn();
     }
+
+    findActive();
+
+    findCurrentNearBy(currentPlayer, secondPlayer);
+    detectAround(currentNearBy);
+    nearByOf(currentNearBy);
     
-        findActive();
-    console.log('current id: ' + currentPlayer.id);
+    console.log('current');
+    console.log(currentNearBy);
+    console.log('current near');
+    console.log(actionField);
+
+    currentNearBy.forEach(a => {
+        a.divCell.style.backgroundColor = 'green';
+    });
+    
+    actionField.forEach(a => {
+        a.forEach(b => {
+            b.divCell.style.backgroundColor = 'green';
+        })
+    })
+
+
 })
 
 
 upButton.addEventListener('click', function () {
-    findActive();
-
-    findCurrentNearBy(currentPlayer);
-    
-  
-    
     currentPlayer.moveUp(currentNearBy);
-      console.log('id: ' + currentPlayer.id);
 })
 
 rightButton.addEventListener('click', e => {
     findActive();
+    //findCurrentNearBy(currentPlayer);
 
-    findCurrentNearBy(currentPlayer);
-    
+
+
     currentPlayer.moveRight(currentNearBy);
-    console.log('id: ' + currentPlayer.id);
+
 })
 
 downButton.addEventListener('click', e => {
     findActive();
 
-    findCurrentNearBy(currentPlayer);
-    
-    
+    //findCurrentNearBy(currentPlayer);
+
+
     currentPlayer.moveDown(currentNearBy);
     console.log('id: ' + currentPlayer.id);
 })
@@ -80,8 +116,8 @@ downButton.addEventListener('click', e => {
 leftButton.addEventListener('click', e => {
     findActive();
 
-    findCurrentNearBy(currentPlayer);
+    //findCurrentNearBy(currentPlayer);
 
     currentPlayer.moveLeft(currentNearBy);
-        console.log('id: ' + currentPlayer.id);
+    console.log('id: ' + currentPlayer.id);
 })

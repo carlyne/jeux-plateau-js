@@ -31,17 +31,17 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    detect(nearby) {   
+    /*detect(nearby) {
         nearby.forEach(near => {
             if (near.isDisable) {
                 busyNear = near.id;
-            }
+            } 
         })
-    }
+    }*/
 
     moveUp(nearby) {
         if (this.move > 0) {
-            this.detect(nearby);
+            //this.detect(nearby);
             let up = (this.id - mapSize);
 
             if (up === busyNear) {
@@ -56,6 +56,7 @@ class Player {
                     this.translateY -= cellSize;
                     this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
                 }
+
                 this.move--;
                 this.id = up;
 
@@ -67,7 +68,7 @@ class Player {
 
     moveDown(nearby) {
         if (this.move > 0) {
-            this.detect(nearby);
+            //this.detect(nearby);
             let down = (this.id + mapSize);
 
             if (down === busyNear) {
@@ -92,7 +93,7 @@ class Player {
 
     moveRight(nearby) {
         if (this.move > 0) {
-            this.detect(nearby);
+           // this.detect(nearby);
             let right = (this.id + 1);
 
             if (right === busyNear) {
@@ -117,7 +118,7 @@ class Player {
 
     moveLeft(nearby) {
         if (this.move > 0) {
-            this.detect(nearby);
+           // this.detect(nearby);
             let left = (this.id - 1);
 
             if (left === busyNear) {
