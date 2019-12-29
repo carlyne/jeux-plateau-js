@@ -2,7 +2,8 @@ const guns = [];
 
 class Gun {
     constructor(name, damage, color) {
-        this.id = null;
+        this.x = 0;
+        this.y = 0;
         this.color = color;
         this.damage = damage;
         this.name = name;

@@ -22,8 +22,8 @@ const findActive = () => {
 
 const findCurrentNearBy = (currentPl, secondPl) => {
     cells.forEach(cell => {
-        if (cell.id === currentPl.id) {
-            currentNearBy = cell.nearBy;
+        if (cell.x === currentPl.x && cell.y === currentPl.y) {
+            currentNearBy = cell.nearby;
 
         } else {
             cell.checkPlayer(secondPl);
@@ -31,38 +31,40 @@ const findCurrentNearBy = (currentPl, secondPl) => {
     })
 }
 
-const nearByOf = nearby => {
-    nearby.forEach(near => {
-        actionField.push(near.nearBy);
+const nearByOf = allNearby => {
+    allNearby.forEach(near => {
+        actionField.push(near.nearby);
     })
 }
 
-const colorize = nearby => {
-    nearby.forEach(near => {
-        if (near.id != busyNear) {
+const detectAround = allNearby => {
+    allNearby.forEach(near => {
+        if (near.hasPlayer && near.x != currentPlayer.x && near.y != currentPlayer.y) {
+            console.log('an ennemi !');
+            busyNearX = near.x;
+            busyNearY = near.y;
+        } else if (near.hasGun) {
+            console.log('oh a gun');
+        } else if (near.isDisabled) {
+            console.log('disabled !');
+            busyNearX = near.x;
+            busyNearY = near.y;
+        }
+    })
+}
+
+const colorize = allNearby => {
+    allNearby.forEach(near => {
+        if (near.x != busyNearX && near.y != busyNearY) {
             near.divCell.style.backgroundColor = 'green';
         }
     });
 }
 
-const decolorize = nearby => {
-    nearby.forEach(near => {
+const decolorize = allNearby => {
+    allNearby.forEach(near => {
         near.divCell.style.backgroundColor = '';
     });
-}
-
-const detectAround = nearBy => {
-    nearBy.forEach(near => {
-        if (near.hasPlayer && near.id != currentPlayer.id) {
-            console.log('an ennemi !');
-            busyNear = near.id;
-        } else if (near.hasGun) {
-            console.log('oh a gun');
-        } else if (near.isDisabled) {
-            console.log('disabled !');
-            busyNear = near.id;
-        }
-    })
 }
 
 defineStartPlayer();
@@ -103,6 +105,7 @@ upButton.addEventListener('click', function () {
     actionField = [];
 
     detectAround(currentNearBy);
+    
     currentPlayer.moveUp();
     findCurrentNearBy(currentPlayer, secondPlayer);
     nearByOf(currentNearBy);
@@ -127,7 +130,7 @@ rightButton.addEventListener('click', e => {
     currentPlayer.moveRight();
     findCurrentNearBy(currentPlayer, secondPlayer);
     nearByOf(currentNearBy);
-    
+
     detectAround(currentNearBy);
     colorize(currentNearBy);
     actionField.forEach(field => {
@@ -176,3 +179,5 @@ leftButton.addEventListener('click', e => {
         colorize(field);
     })
 })
+
+console.log(cells);

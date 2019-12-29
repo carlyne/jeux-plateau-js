@@ -6,12 +6,14 @@ const cellSize = 64;
 let cellId = 1;
 
 class Cell {
-    constructor() {
+    constructor(x, y) {
         this.id = cellId++;
         this.hasGun = false;
         this.hasPlayer = false;
         this.isDisable = false;
-        this.nearBy = [];
+        this.x = x;
+        this.y = y;
+        this.nearby = [];
         this.divCell = document.createElement('div');
         this.divCell.id = `cell-${this.id}`;
         this.divCell.classList.add('cell');
@@ -19,20 +21,24 @@ class Cell {
 
     addGun(gun) {
         this.divCell.appendChild(gun.spanGun);
-        gun.id = this.id;
+
+        gun.x = this.x;
+        gun.y = this.y;
 
         this.hasGun = true;
     }
 
     addPlayer(player) {
         this.divCell.appendChild(player.spanPlayer);
-        player.id = this.id;
+
+        player.x = this.x;
+        player.y = this.y;
 
         this.hasPlayer = true;
     }
 
     checkPlayer(player) {
-        if (this.id === player.id) {
+        if (this.x === player.x && this.y === player.y) {
             this.hasPlayer = true;
         } else {
             this.hasPlayer = false;
@@ -40,7 +46,7 @@ class Cell {
     }
 
     checkGun(gun) {
-        if (this.id === gun.id) {
+        if (this.x === gun.x && this.y === gun.y) {
             this.hasGun = true;
         } else {
             this.hasGun = false;
@@ -61,38 +67,37 @@ class Cell {
     }
 
     findNearBy() {
-        let n = (this.id - mapSize);
-        this.nearBy.push(n);
+        let n = [(this.x - 1), this.y];
+        this.nearby.push(n);
 
-        let e = (this.id + 1);
-        this.nearBy.push(e);
+        let e = [this.x, (this.y + 1)];
+        this.nearby.push(e);
 
-        let s = (this.id + mapSize);
-        this.nearBy.push(s);
+        let s = [(this.x + 1), this.y];
+        this.nearby.push(s);
 
-        let o = (this.id - 1);
-        this.nearBy.push(o);
+        let o = [this.x, (this.y - 1)];
+        this.nearby.push(o);
     }
 
     get allNearBy() {
         let neighbourg = [];
 
         cells.forEach(cell => {
-            this.nearBy.forEach(nearCell => {
-                if (cell.id === nearCell) {
+            this.nearby.forEach(value => {
+                if (cell.x === value[0] && cell.y === value[1]) {
                     neighbourg.push(cell);
                 }
             })
         })
 
-        this.nearBy = neighbourg;
+        this.nearby = neighbourg;
     }
 }
 
-
 for (let x = 0; x < mapSize; x++) {
     for (let y = 0; y < mapSize; y++) {
-        cells.push(new Cell());
+        cells.push(new Cell(x, y));
     }
 }
 
@@ -120,8 +125,6 @@ const randomGuns = (number = 4) => {
         const cellArr = [randomizer(cells), randomizer(cells), randomizer(cells), randomizer(cells)];
 
         cellArr.forEach((cell, index) => {
-
-
             if (!cell.isDisabled && !cell.hasGun) {
                 cell.addGun(guns[index]);
                 i++
@@ -156,5 +159,4 @@ const renderBoard = () => {
     randomGuns();
     randomPlayers();
 }
-
 renderBoard();

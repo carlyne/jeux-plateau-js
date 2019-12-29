@@ -1,23 +1,23 @@
 const players = [];
 const playerOrder = [];
-let busyNear = null;
+let busyNearX = null;
+let busyNearY = null;
+
 
 let currentPlayer = null;
 let secondPlayer = null;
 
 class Player {
     constructor(color) {
-        this.id = null;
+        this.x = 0;
+        this.y = 0;
         this.move = 3;
-        this.canMove = true;
         this.translateY = 0;
         this.translateX = 0;
         this.health = 100;
         this.gun = "none";
         this.color = color;
         this.active = false;
-        this.canMove = true;
-        this.stepCounter = true;
         this.spanPlayer = document.createElement('span');
         this.spanPlayer.classList.add('player');
         this.spanPlayer.style.backgroundColor = this.color;
@@ -36,9 +36,9 @@ class Player {
 
     moveUp() {
         if (this.move > 0) {
-            let up = (this.id - mapSize);
+            let up = (this.x - 1);
 
-            if (up === busyNear) {
+            if (up === busyNearX && this.y === busyNearY || up < 0) {
                 console.log('no move');
 
             } else {
@@ -52,7 +52,7 @@ class Player {
                 }
 
                 this.move--;
-                this.id = up;
+                this.x = up;
 
             }
         } else {
@@ -62,9 +62,9 @@ class Player {
 
     moveDown() {
         if (this.move > 0) {
-            let down = (this.id + mapSize);
+            let down = (this.x + 1);
 
-            if (down === busyNear) {
+            if (down === busyNearX && this.y === busyNearY || down > (mapSize -1)) {
                 console.log('no move');
 
             } else {
@@ -76,7 +76,7 @@ class Player {
                     this.translateY += cellSize;
                     this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
                 }
-                this.id = down;
+                this.x = down;
                 this.move--;
             }
         } else {
@@ -86,9 +86,9 @@ class Player {
 
     moveRight() {
         if (this.move > 0) {
-            let right = (this.id + 1);
+            let right = (this.y + 1);
 
-            if (right === busyNear) {
+            if (this.x === busyNearX && right === busyNearY || right > (mapSize - 1)) {
                 console.log('no move');
 
             } else {
@@ -100,7 +100,7 @@ class Player {
                     this.translateX += cellSize;
                     this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
                 }
-                this.id = right;
+                this.y = right;
                 this.move--;
             }
         } else {
@@ -110,9 +110,9 @@ class Player {
 
     moveLeft() {
         if (this.move > 0) {
-            let left = (this.id - 1);
+            let left = (this.y - 1);
 
-            if (left === busyNear) {
+            if (this.x === busyNearX && left === busyNearY || left < 0) {
                 console.log('no move');
 
             } else {
@@ -124,7 +124,7 @@ class Player {
                     this.translateX -= cellSize;
                     this.spanPlayer.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
                 }
-                this.id = left;
+                this.y = left;
                 this.move--;
             }
         } else {
@@ -156,7 +156,7 @@ let defineStartPlayer = () => {
             i++;
         }
     }
-    
+
     currentPlayer = playerOrder[0];
     secondPlayer = playerOrder[1];
 }
