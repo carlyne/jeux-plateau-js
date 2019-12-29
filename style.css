@@ -54,3 +54,7 @@ section#interface {
     display: flex;
     justify-content: center;
 }
+
+button#fight-button {
+    display: none;
+}

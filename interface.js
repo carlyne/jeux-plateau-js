@@ -4,8 +4,9 @@ const upButton = document.getElementById('up-button');
 const rightButton = document.getElementById('right-button');
 const downButton = document.getElementById('down-button');
 const leftButton = document.getElementById('left-button');
+const fightButton = document.getElementById('fight-button');
 
-let currentNearBy = [];
+let currentNearby = [];
 let moveField = false;
 let actionField = [];
 
@@ -20,10 +21,10 @@ const findActive = () => {
     })
 }
 
-const findCurrentNearBy = (currentPl, secondPl) => {
+const findCurrentNearby = (currentPl, secondPl) => {
     cells.forEach(cell => {
         if (cell.x === currentPl.x && cell.y === currentPl.y) {
-            currentNearBy = cell.nearby;
+            currentNearby = cell.nearby;
 
         } else {
             cell.checkPlayer(secondPl);
@@ -31,7 +32,7 @@ const findCurrentNearBy = (currentPl, secondPl) => {
     })
 }
 
-const nearByOf = allNearby => {
+const nearbyOfNearby = allNearby => {
     allNearby.forEach(near => {
         actionField.push(near.nearby);
     })
@@ -39,32 +40,61 @@ const nearByOf = allNearby => {
 
 const detectAround = allNearby => {
     allNearby.forEach(near => {
-        if (near.hasPlayer && near.x != currentPlayer.x && near.y != currentPlayer.y) {
+        if (near.hasPlayer && near.x === secondPlayer.x && near.y === secondPlayer.y) {
             console.log('an ennemi !');
             busyNearX = near.x;
             busyNearY = near.y;
+            fightButton.style.display = 'block';
+
         } else if (near.hasGun) {
             console.log('oh a gun');
+            fightButton.style.display = 'none';
+
         } else if (near.isDisabled) {
             console.log('disabled !');
             busyNearX = near.x;
             busyNearY = near.y;
+            fightButton.style.display = 'none';
         }
     })
 }
 
 const colorize = allNearby => {
     allNearby.forEach(near => {
-        if (near.x != busyNearX && near.y != busyNearY) {
-            near.divCell.style.backgroundColor = 'green';
+        if (near.isDisable || near.hasPlayer && near.x === secondPlayer.x && near.y === secondPlayer.y) {
+            near.divCell.style.backgroundColor = 'rgba(231, 76, 60, 0.5)';
+        } else {
+            near.divCell.style.backgroundColor = 'rgba(123, 239, 178, 0.5)';
         }
-    });
+    })
 }
 
 const decolorize = allNearby => {
     allNearby.forEach(near => {
         near.divCell.style.backgroundColor = '';
-    });
+    })
+}
+
+const playerAction = () => {
+    actionField.forEach(near => {
+        decolorize(near);
+    })
+    actionField = [];
+
+    decolorize(currentNearby);
+
+    findCurrentNearby(currentPlayer, secondPlayer);
+    nearbyOfNearby(currentNearby);
+
+    detectAround(currentNearby);
+    actionField.forEach(near => {
+        detectAround(near);
+    })
+
+    colorize(currentNearby);
+    actionField.forEach(near => {
+        colorize(near);
+    })
 }
 
 defineStartPlayer();
@@ -72,112 +102,50 @@ defineStartPlayer();
 mainButton.addEventListener('click', function () {
     this.innerHTML = "end turn";
 
-    decolorize(currentNearBy);
-    actionField.forEach(field => {
-        decolorize(field);
-    });
+    actionField.forEach(near => {
+        decolorize(near);
+    })
 
     actionField = [];
+
+    decolorize(currentNearby);
 
     currentPlayer.endTurn();
     secondPlayer.newTurn();
 
     findActive();
 
-    findCurrentNearBy(currentPlayer, secondPlayer);
-    nearByOf(currentNearBy);
-    detectAround(currentNearBy);
+    findCurrentNearby(currentPlayer, secondPlayer);
+    nearbyOfNearby(currentNearby);
 
-    colorize(currentNearBy);
-    actionField.forEach(field => {
-        detectAround(field);
-        colorize(field);
+    detectAround(currentNearby);
+    actionField.forEach(near => {
+        detectAround(near);
     })
-})
 
+    colorize(currentNearby);
+    actionField.forEach(near => {
+        colorize(near);
+    })
+
+})
 
 upButton.addEventListener('click', function () {
-    decolorize(currentNearBy);
-    actionField.forEach(field => {
-        decolorize(field);
-    });
-
-    actionField = [];
-
-    detectAround(currentNearBy);
-    
     currentPlayer.moveUp();
-    findCurrentNearBy(currentPlayer, secondPlayer);
-    nearByOf(currentNearBy);
-
-    detectAround(currentNearBy);
-    colorize(currentNearBy);
-    actionField.forEach(field => {
-        detectAround(field);
-        colorize(field);
-    })
+    playerAction();
 })
 
-rightButton.addEventListener('click', e => {
-    decolorize(currentNearBy);
-    actionField.forEach(field => {
-        decolorize(field);
-    });
-
-    actionField = [];
-
-    detectAround(currentNearBy);
-    currentPlayer.moveRight();
-    findCurrentNearBy(currentPlayer, secondPlayer);
-    nearByOf(currentNearBy);
-
-    detectAround(currentNearBy);
-    colorize(currentNearBy);
-    actionField.forEach(field => {
-        detectAround(field);
-        colorize(field);
-    })
-})
-
-downButton.addEventListener('click', e => {
-    decolorize(currentNearBy);
-    actionField.forEach(field => {
-        decolorize(field);
-    });
-
-    actionField = [];
-
-    detectAround(currentNearBy);
+downButton.addEventListener('click', function () {
     currentPlayer.moveDown();
-    findCurrentNearBy(currentPlayer, secondPlayer);
-    nearByOf(currentNearBy);
-
-    detectAround(currentNearBy);
-    colorize(currentNearBy);
-    actionField.forEach(field => {
-        detectAround(field);
-        colorize(field);
-    })
+    playerAction();
 })
 
-leftButton.addEventListener('click', e => {
-    decolorize(currentNearBy);
-    actionField.forEach(field => {
-        decolorize(field);
-    });
+rightButton.addEventListener('click', function () {
+    currentPlayer.moveRight();
+    playerAction();
+})
 
-    actionField = [];
-
-    detectAround(currentNearBy);
+leftButton.addEventListener('click', function () {
     currentPlayer.moveLeft();
-    findCurrentNearBy(currentPlayer, secondPlayer);
-    nearByOf(currentNearBy);
-
-    colorize(currentNearBy);
-    actionField.forEach(field => {
-        detectAround(field);
-        colorize(field);
-    })
+    playerAction();
 })
-
-console.log(cells);
