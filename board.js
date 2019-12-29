@@ -1,7 +1,7 @@
 const board = document.getElementById('board');
 const cells = [];
 
-const mapSize = 8;
+const mapSize = 10;
 const cellSize = 64;
 let cellId = 1;
 
