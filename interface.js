@@ -9,6 +9,12 @@ const fightButton = document.getElementById('fight-button');
 let currentNearby = [];
 let moveField = false;
 let actionField = [];
+let toLoot = [];
+let change = false;
+
+let loot = false;
+
+let attack = false;
 
 const findActive = () => {
     playerOrder.forEach(player => {
@@ -47,7 +53,9 @@ const detectAround = allNearby => {
             fightButton.style.display = 'block';
 
         } else if (near.hasGun) {
-            console.log('oh a gun');
+            toLoot.push(near.loot);
+
+            loot = true;
             fightButton.style.display = 'none';
 
         } else if (near.isDisabled) {
@@ -87,14 +95,13 @@ const playerAction = () => {
     nearbyOfNearby(currentNearby);
 
     detectAround(currentNearby);
+
     actionField.forEach(near => {
         detectAround(near);
+        colorize(near);
     })
 
     colorize(currentNearby);
-    actionField.forEach(near => {
-        colorize(near);
-    })
 }
 
 defineStartPlayer();
@@ -119,15 +126,12 @@ mainButton.addEventListener('click', function () {
     nearbyOfNearby(currentNearby);
 
     detectAround(currentNearby);
+
     actionField.forEach(near => {
         detectAround(near);
-    })
-
-    colorize(currentNearby);
-    actionField.forEach(near => {
         colorize(near);
     })
-
+    colorize(currentNearby);
 })
 
 upButton.addEventListener('click', function () {
@@ -148,4 +152,9 @@ rightButton.addEventListener('click', function () {
 leftButton.addEventListener('click', function () {
     currentPlayer.moveLeft();
     playerAction();
+})
+
+fightButton.addEventListener('click', function () {
+    attack = true;
+    secondPlayer.injured;
 })

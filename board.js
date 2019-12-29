@@ -9,6 +9,7 @@ class Cell {
     constructor(x, y) {
         this.id = cellId++;
         this.hasGun = false;
+        this.loot = null;
         this.hasPlayer = false;
         this.isDisable = false;
         this.x = x;
@@ -26,6 +27,7 @@ class Cell {
         gun.y = this.y;
 
         this.hasGun = true;
+        this.loot = gun;
     }
 
     addPlayer(player) {
@@ -159,4 +161,5 @@ const renderBoard = () => {
     randomGuns();
     randomPlayers();
 }
+
 renderBoard();

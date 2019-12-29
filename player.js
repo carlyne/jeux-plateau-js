@@ -15,7 +15,7 @@ class Player {
         this.translateY = 0;
         this.translateX = 0;
         this.health = 100;
-        this.gun = "none";
+        this.stuff = basicGun;
         this.color = color;
         this.active = false;
         this.spanPlayer = document.createElement('span');
@@ -32,6 +32,25 @@ class Player {
     endTurn() {
         this.active = false;
         this.spanPlayer.classList.remove('playing');
+    }
+
+    stuffed(lootGuns) {
+        let newStuff = null;
+        let currentStuff = this.stuff;
+
+        lootGuns.forEach(lootGun => {
+            if (loot && this.x === lootGun.x && this.y === lootGun.y) {
+                newStuff = lootGun;
+                lootGun = currentStuff;
+                this.stuff = newStuff;
+
+                change = true;
+
+            } else {
+                change = false;
+                loot = false;
+            }
+        })
     }
 
     moveUp() {
@@ -54,6 +73,7 @@ class Player {
                 this.move--;
                 this.x = up;
 
+                this.stuffed(toLoot);
             }
         } else {
             console.log('no more move');
@@ -64,7 +84,7 @@ class Player {
         if (this.move > 0) {
             let down = (this.x + 1);
 
-            if (down === busyNearX && this.y === busyNearY || down > (mapSize -1)) {
+            if (down === busyNearX && this.y === busyNearY || down > (mapSize - 1)) {
                 console.log('no move');
 
             } else {
@@ -78,6 +98,8 @@ class Player {
                 }
                 this.x = down;
                 this.move--;
+
+                this.stuffed(toLoot);
             }
         } else {
             console.log('no more move');
@@ -102,6 +124,8 @@ class Player {
                 }
                 this.y = right;
                 this.move--;
+
+                this.stuffed(toLoot);
             }
         } else {
             console.log('no more move');
@@ -126,9 +150,23 @@ class Player {
                 }
                 this.y = left;
                 this.move--;
+
+                this.stuffed(toLoot);
             }
         } else {
             console.log('no more move');
+        }
+    }
+
+    get injured() {
+        if (attack) {
+            if (currentPlayer.stuff === basicGun) {
+                console.log('missed');
+            } else {
+                console.log('outch');
+                this.health--;
+            }
+            attack = false;
         }
     }
 
