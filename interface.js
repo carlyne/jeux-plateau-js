@@ -46,15 +46,23 @@ const findCurrentCell = (currentPl, secondPl) => {
 }
 
 const removeDupplicate = (element, array) => {
-    let counter = 0;
-    for (let i in element) {
-        if (counter > 0) {
-            array.splice(i--, 1);
-        } else {
-            array.splice(i, 1);
-            counter++;
+    let newArray = [];
+    
+    for (let i = 0; i < element.length; i++) {
+        for (let j = 0; j < array.length; j++) {
+            if (element[i] === j) {
+                array.splice(j, 1, null);
+            }
         }
     }
+
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] !== null) {
+            newArray.push(array[i]);
+        }
+    }
+    
+    return newArray;
 }
 
 const findNearGroup = cell => {
@@ -83,7 +91,7 @@ const findMoveField = () => {
     toReduce.forEach(e => {
         output.push(e);
     })
-    
+
     console.log(output);
 
     for (let i = 0; i < toReduce.length; i++) {
@@ -91,11 +99,11 @@ const findMoveField = () => {
 
         for (let j = 0; j < output.length; j++) {
             if (toReduce[i].id === output[j].id) {
-                indice = (j + 1);
+                indice = j;
                 counter++;
-                
+
                 if (counter > 1) {
-                ind.push(indice);
+                    ind.push(indice);
                 }
             }
         }
@@ -110,13 +118,12 @@ const findMoveField = () => {
     }
 
     for (x in obj) {
-        out.push(x);
+        out.push(Number(x));
     }
 
     ind = out;
-    console.log(ind);
-    removeDupplicate(ind, output);
-    console.log(output);
+
+    moveField = removeDupplicate(ind, output);
 }
 
 
@@ -161,15 +168,15 @@ const decolorize = neargroup => {
 }
 
 const playerAction = () => {
-    //decolorize(moveField);
-    //moveField = [];
+    decolorize(moveField);
+    moveField = [];
 
     findCurrentCell(currentPlayer, secondPlayer);
     findMoveField(currentCell);
 
-    //colorize(moveField);
+    colorize(moveField);
 
-    //detectAround(moveField);
+    detectAround(moveField);
 }
 
 defineStartPlayer();
@@ -177,8 +184,8 @@ defineStartPlayer();
 mainButton.addEventListener('click', function () {
     this.innerHTML = "end turn";
 
-    //decolorize(moveField);
-    //moveField = [];
+    decolorize(moveField);
+    moveField = [];
 
     currentPlayer.endTurn();
     secondPlayer.newTurn();
@@ -187,10 +194,9 @@ mainButton.addEventListener('click', function () {
     findCurrentCell(currentPlayer, secondPlayer);
     findMoveField(currentCell);
 
-    //colorize(moveField);
+    colorize(moveField);
 
-    //detectAround(moveField);
-    //console.log(moveField);
+    detectAround(moveField);
 })
 
 upButton.addEventListener('click', function () {
