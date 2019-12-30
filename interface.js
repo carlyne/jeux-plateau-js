@@ -53,9 +53,22 @@ const detectAround = allNearby => {
             fightButton.style.display = 'block';
 
         } else if (near.hasGun) {
-            toLoot.push(near.loot);
-
             loot = true;
+
+            if (toLoot.length >= 1) {
+                toLoot.forEach(lootGun => {
+                    if (lootGun === near.loot || lootGun === lootGun) {
+                        console.log('already scanned');
+                    } else if (change) {
+                        near.loot = lootGun;
+                    } else {
+                        toLoot.push(near.loot);
+                    }
+                })
+            } else {
+                toLoot.push(near.loot);
+            }
+
             fightButton.style.display = 'none';
 
         } else if (near.isDisabled) {
@@ -102,6 +115,11 @@ const playerAction = () => {
     })
 
     colorize(currentNearby);
+
+    console.log('loot');
+    console.log(toLoot);
+    console.log('player stuff');
+    console.log(currentPlayer.stuff);
 }
 
 defineStartPlayer();
@@ -132,6 +150,9 @@ mainButton.addEventListener('click', function () {
         colorize(near);
     })
     colorize(currentNearby);
+
+    console.log('loot');
+    console.log(toLoot);
 })
 
 upButton.addEventListener('click', function () {

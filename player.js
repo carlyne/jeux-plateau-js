@@ -38,18 +38,17 @@ class Player {
         let newStuff = null;
         let currentStuff = this.stuff;
 
-        lootGuns.forEach(lootGun => {
-            if (loot && this.x === lootGun.x && this.y === lootGun.y) {
+        lootGuns.forEach((lootGun, index) => {
+            if (this.x === lootGun.x && this.y === lootGun.y) {
                 newStuff = lootGun;
-                lootGun = currentStuff;
-                this.stuff = newStuff;
-
                 change = true;
-
+                
+                lootGuns.splice(index, 0, currentStuff);
+                
+                this.stuff = newStuff;
             } else {
                 change = false;
-                loot = false;
-            }
+            }    
         })
     }
 
@@ -73,7 +72,10 @@ class Player {
                 this.move--;
                 this.x = up;
 
-                this.stuffed(toLoot);
+                if (loot) {
+                    this.stuffed(toLoot);
+                }
+
             }
         } else {
             console.log('no more move');
@@ -99,7 +101,9 @@ class Player {
                 this.x = down;
                 this.move--;
 
-                this.stuffed(toLoot);
+                if (loot) {
+                    this.stuffed(toLoot);
+                }
             }
         } else {
             console.log('no more move');
@@ -125,7 +129,9 @@ class Player {
                 this.y = right;
                 this.move--;
 
-                this.stuffed(toLoot);
+                if (loot) {
+                    this.stuffed(toLoot);
+                }
             }
         } else {
             console.log('no more move');
@@ -151,7 +157,9 @@ class Player {
                 this.y = left;
                 this.move--;
 
-                this.stuffed(toLoot);
+                if (loot) {
+                    this.stuffed(toLoot);
+                }
             }
         } else {
             console.log('no more move');
