@@ -1,11 +1,6 @@
 const players = [];
 const playerOrder = [];
-let busyNearX = null;
-let busyNearY = null;
 
-
-let currentPlayer = null;
-let secondPlayer = null;
 
 class Player {
     constructor(color) {
@@ -34,24 +29,6 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
-    stuffed(lootGuns) {
-        let newStuff = null;
-        let currentStuff = this.stuff;
-
-        lootGuns.forEach((lootGun, index) => {
-            if (this.x === lootGun.x && this.y === lootGun.y) {
-                newStuff = lootGun;
-                change = true;
-                
-                lootGuns.splice(index, 0, currentStuff);
-                
-                this.stuff = newStuff;
-            } else {
-                change = false;
-            }    
-        })
-    }
-
     moveUp() {
         if (this.move > 0) {
             let up = (this.x - 1);
@@ -71,11 +48,6 @@ class Player {
 
                 this.move--;
                 this.x = up;
-
-                if (loot) {
-                    this.stuffed(toLoot);
-                }
-
             }
         } else {
             console.log('no more move');
@@ -100,10 +72,6 @@ class Player {
                 }
                 this.x = down;
                 this.move--;
-
-                if (loot) {
-                    this.stuffed(toLoot);
-                }
             }
         } else {
             console.log('no more move');
@@ -128,10 +96,6 @@ class Player {
                 }
                 this.y = right;
                 this.move--;
-
-                if (loot) {
-                    this.stuffed(toLoot);
-                }
             }
         } else {
             console.log('no more move');
@@ -156,10 +120,6 @@ class Player {
                 }
                 this.y = left;
                 this.move--;
-
-                if (loot) {
-                    this.stuffed(toLoot);
-                }
             }
         } else {
             console.log('no more move');
