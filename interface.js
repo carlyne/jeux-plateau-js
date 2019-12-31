@@ -172,12 +172,15 @@ const decolorize = neargroup => {
 const playerAction = () => {
     decolorize(moveField);
     moveField = [];
+    
+    currentPlayer.changeGun();
 
     findCurrentCell(currentPlayer, secondPlayer);
     findMoveField(currentCell);
     colorize(moveField);
 
     detectAround(moveField);
+    console.log(currentPlayer.stuff);
     console.log(storeGun);
 }
 

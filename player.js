@@ -29,6 +29,21 @@ class Player {
         this.spanPlayer.classList.remove('playing');
     }
 
+    changeGun() {
+        storeGun.forEach((gun, index) => {
+            let currentGun = null;
+            if (this.x === gun.x && this.y === gun.y) {
+                currentGun = gun;
+                storeGun.splice(index, 1, this.stuff);
+                this.stuff = currentGun;
+                change = true;
+                
+            } else {
+                change = false;
+            }
+        })
+    }
+
     moveUp() {
         if (this.move > 0 && this.active) {
             let up = (this.x - 1);
