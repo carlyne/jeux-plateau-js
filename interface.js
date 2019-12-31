@@ -92,8 +92,6 @@ const findMoveField = () => {
         output.push(e);
     })
 
-    console.log(output);
-
     for (let i = 0; i < toReduce.length; i++) {
         let counter = 0;
 
@@ -122,8 +120,10 @@ const findMoveField = () => {
     }
 
     ind = out;
+    
+    let store = removeDupplicate(ind, output);
 
-    moveField = removeDupplicate(ind, output);
+    moveField = store;
 }
 
 
@@ -175,7 +175,6 @@ const playerAction = () => {
     findMoveField(currentCell);
 
     colorize(moveField);
-
     detectAround(moveField);
 }
 
@@ -195,7 +194,6 @@ mainButton.addEventListener('click', function () {
     findMoveField(currentCell);
 
     colorize(moveField);
-
     detectAround(moveField);
 })
 
