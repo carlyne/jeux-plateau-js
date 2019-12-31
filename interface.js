@@ -6,14 +6,9 @@ const downButton = document.getElementById('down-button');
 const leftButton = document.getElementById('left-button');
 const fightButton = document.getElementById('fight-button');
 
-/*let currentNearby = [];
-let actionField = [];
-let toLoot = [];
-let change = false;
-let loot = false;*/
-
 let currentPlayer = null;
 let secondPlayer = null;
+let attack = false;
 
 let busyNearX = null;
 let busyNearY = null;
@@ -21,7 +16,7 @@ let busyNearY = null;
 let currentCell = null;
 let moveField = [];
 
-let attack = false;
+let storeGun = [];
 
 const findActive = () => {
     playerOrder.forEach(player => {
@@ -45,26 +40,6 @@ const findCurrentCell = (currentPl, secondPl) => {
     })
 }
 
-const removeDupplicate = (element, array) => {
-    let newArray = [];
-    
-    for (let i = 0; i < element.length; i++) {
-        for (let j = 0; j < array.length; j++) {
-            if (element[i] === j) {
-                array.splice(j, 1, null);
-            }
-        }
-    }
-
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] !== null) {
-            newArray.push(array[i]);
-        }
-    }
-    
-    return newArray;
-}
-
 const findNearGroup = cell => {
     let allNearbyPlus = [];
     let nearGroup = [];
@@ -81,6 +56,26 @@ const findNearGroup = cell => {
     })
 
     return nearGroup;
+}
+
+const removeDupplicate = (element, array) => {
+    let newArray = [];
+
+    for (let i = 0; i < element.length; i++) {
+        for (let j = 0; j < array.length; j++) {
+            if (element[i] === j) {
+                array.splice(j, 1, null);
+            }
+        }
+    }
+
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] !== null) {
+            newArray.push(array[i]);
+        }
+    }
+
+    return newArray;
 }
 
 const findMoveField = () => {
@@ -120,31 +115,38 @@ const findMoveField = () => {
     }
 
     ind = out;
-    
+
     let store = removeDupplicate(ind, output);
 
     moveField = store;
 }
 
-
-
-
-const detectAround = neargroup => {
+const detectAround = neargroup => { 
     neargroup.forEach(near => {
+        near.checkGun;
+        
         if (near.hasPlayer && near.x === secondPlayer.x && near.y === secondPlayer.y) {
             console.log('an ennemi !');
+            
             busyNearX = near.x;
             busyNearY = near.y;
+            
             fightButton.style.display = 'block';
 
         } else if (near.hasGun) {
             console.log('oh a gun')
+
+            storeGun.push(near.loot);
+            near.loot = null;
+            
             fightButton.style.display = 'none';
 
         } else if (near.isDisabled) {
             console.log('disabled !');
+            
             busyNearX = near.x;
             busyNearY = near.y;
+            
             fightButton.style.display = 'none';
         }
     })
@@ -173,9 +175,10 @@ const playerAction = () => {
 
     findCurrentCell(currentPlayer, secondPlayer);
     findMoveField(currentCell);
-
     colorize(moveField);
+
     detectAround(moveField);
+    console.log(storeGun);
 }
 
 defineStartPlayer();
@@ -192,9 +195,10 @@ mainButton.addEventListener('click', function () {
     findActive();
     findCurrentCell(currentPlayer, secondPlayer);
     findMoveField(currentCell);
-
     colorize(moveField);
+
     detectAround(moveField);
+    console.log(storeGun);
 })
 
 upButton.addEventListener('click', function () {

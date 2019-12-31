@@ -47,11 +47,11 @@ class Cell {
         }
     }
 
-    checkGun(gun) {
-        if (this.x === gun.x && this.y === gun.y) {
-            this.hasGun = true;
-        } else {
+    get checkGun() {
+        if (this.loot === null) {
             this.hasGun = false;
+        } else {
+            this.hasGun = true;
         }
     }
 

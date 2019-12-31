@@ -30,7 +30,7 @@ class Player {
     }
 
     moveUp() {
-        if (this.move > 0) {
+        if (this.move > 0 && this.active) {
             let up = (this.x - 1);
 
             if (up === busyNearX && this.y === busyNearY || up < 0) {
@@ -55,7 +55,7 @@ class Player {
     }
 
     moveDown() {
-        if (this.move > 0) {
+        if (this.move > 0 && this.active) {
             let down = (this.x + 1);
 
             if (down === busyNearX && this.y === busyNearY || down > (mapSize - 1)) {
@@ -79,7 +79,7 @@ class Player {
     }
 
     moveRight() {
-        if (this.move > 0) {
+        if (this.move > 0 && this.active) {
             let right = (this.y + 1);
 
             if (this.x === busyNearX && right === busyNearY || right > (mapSize - 1)) {
@@ -103,7 +103,7 @@ class Player {
     }
 
     moveLeft() {
-        if (this.move > 0) {
+        if (this.move > 0 && this.active) {
             let left = (this.y - 1);
 
             if (this.x === busyNearX && left === busyNearY || left < 0) {
