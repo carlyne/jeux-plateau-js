@@ -30,6 +30,11 @@ class Cell {
         this.loot = gun;
     }
 
+    removeGun(gun) {
+        this.divCell.removeChild(gun.spanGun);
+        this.hasGun = false;
+    }
+
     addPlayer(player) {
         this.divCell.appendChild(player.spanPlayer);
 
@@ -40,7 +45,7 @@ class Cell {
     }
 
     checkPlayer(player) {
-        if (this.x === player.x && this.y === player.y) {
+        if (samePosition(this, player)) {
             this.hasPlayer = true;
         } else {
             this.hasPlayer = false;
@@ -66,6 +71,11 @@ class Cell {
         } else {
             return false;
         }
+    }
+
+    get isBusy() {
+        busyNearX = this.x;
+        busyNearY = this.y;
     }
 
     findNearBy() {

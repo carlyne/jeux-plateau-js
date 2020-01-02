@@ -32,14 +32,13 @@ class Player {
     changeGun() {
         storeGun.forEach((gun, index) => {
             let currentGun = null;
-            if (this.x === gun.x && this.y === gun.y) {
+
+            if (samePosition(this, gun)) {
                 currentGun = gun;
                 storeGun.splice(index, 1, this.stuff);
                 this.stuff = currentGun;
-                change = true;
-                
-            } else {
-                change = false;
+
+                currentGun.dropped = true;
             }
         })
     }

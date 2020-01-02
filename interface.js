@@ -18,6 +18,14 @@ let moveField = [];
 
 let storeGun = [];
 
+const samePosition = (element1, element2) => {
+    if (element1.x === element2.x && element1.y === element2.y) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const findActive = () => {
     playerOrder.forEach(player => {
         if (player.active) {
@@ -31,7 +39,7 @@ const findActive = () => {
 
 const findCurrentCell = (currentPl, secondPl) => {
     cells.forEach(cell => {
-        if (cell.x === currentPl.x && cell.y === currentPl.y) {
+        if (samePosition(cell, currentPl)) {
             currentCell = cell;
 
         } else {
@@ -121,40 +129,32 @@ const findMoveField = () => {
     moveField = store;
 }
 
-const detectAround = neargroup => { 
+const detectAround = neargroup => {
     neargroup.forEach(near => {
         near.checkGun;
-        
-        if (near.hasPlayer && near.x === secondPlayer.x && near.y === secondPlayer.y) {
+
+        if (near.hasPlayer && samePosition(near, secondPlayer)) {
             console.log('an ennemi !');
-            
-            busyNearX = near.x;
-            busyNearY = near.y;
-            
+            near.isBusy;
             fightButton.style.display = 'block';
 
         } else if (near.hasGun) {
-            console.log('oh a gun')
-
-            storeGun.push(near.loot);
-            near.loot = null;
-            
             fightButton.style.display = 'none';
 
         } else if (near.isDisabled) {
             console.log('disabled !');
-            
-            busyNearX = near.x;
-            busyNearY = near.y;
-            
+            near.isBusy;
             fightButton.style.display = 'none';
         }
+        
+        console.log('near loot');
+        console.log(near.loot);
     })
 }
 
 const colorize = neargroup => {
     neargroup.forEach(near => {
-        if (near.isDisable || near.hasPlayer && near.x === secondPlayer.x && near.y === secondPlayer.y) {
+        if (near.isDisable || samePosition(near, secondPlayer) && near.hasPlayer) {
             near.divCell.style.backgroundColor = 'rgba(231, 76, 60, 0.5)';
 
         } else {
@@ -172,7 +172,7 @@ const decolorize = neargroup => {
 const playerAction = () => {
     decolorize(moveField);
     moveField = [];
-    
+
     currentPlayer.changeGun();
 
     findCurrentCell(currentPlayer, secondPlayer);
@@ -180,7 +180,9 @@ const playerAction = () => {
     colorize(moveField);
 
     detectAround(moveField);
+    console.log('player stuff');
     console.log(currentPlayer.stuff);
+    console.log('store gun:');
     console.log(storeGun);
 }
 
