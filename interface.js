@@ -15,8 +15,7 @@ let busyNearY = null;
 
 let currentCell = null;
 let moveField = [];
-
-let storeGun = [];
+let change = false;
 
 const samePosition = (element1, element2) => {
     if (element1.x === element2.x && element1.y === element2.y) {
@@ -131,24 +130,28 @@ const findMoveField = () => {
 
 const detectAround = neargroup => {
     neargroup.forEach(near => {
-        near.checkGun;
 
         if (near.hasPlayer && samePosition(near, secondPlayer)) {
             console.log('an ennemi !');
             near.isBusy;
             fightButton.style.display = 'block';
 
-        } else if (near.hasGun) {
+        } else if (near.hasGun && samePosition(near, currentPlayer)) {
+            console.log('youn found a gun');
+            
+            near.removeGun;
+            currentPlayer.changeGun(near);
+            near.addAGun;
             fightButton.style.display = 'none';
 
         } else if (near.isDisabled) {
             console.log('disabled !');
             near.isBusy;
             fightButton.style.display = 'none';
+            
+        } else {
+            change = false;
         }
-        
-        console.log('near loot');
-        console.log(near.loot);
     })
 }
 
@@ -173,17 +176,11 @@ const playerAction = () => {
     decolorize(moveField);
     moveField = [];
 
-    currentPlayer.changeGun();
-
     findCurrentCell(currentPlayer, secondPlayer);
     findMoveField(currentCell);
     colorize(moveField);
 
     detectAround(moveField);
-    console.log('player stuff');
-    console.log(currentPlayer.stuff);
-    console.log('store gun:');
-    console.log(storeGun);
 }
 
 defineStartPlayer();
@@ -203,7 +200,6 @@ mainButton.addEventListener('click', function () {
     colorize(moveField);
 
     detectAround(moveField);
-    console.log(storeGun);
 })
 
 upButton.addEventListener('click', function () {

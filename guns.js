@@ -7,9 +7,7 @@ class Gun {
         this.color = color;
         this.damage = damage;
         this.name = name;
-        this.dropped = false;
         this.spanGun = document.createElement('span');
-        this.spanGun.id = this.name;
         this.spanGun.classList.add('guns');
         this.spanGun.style.backgroundColor = this.color;
     }

@@ -28,19 +28,12 @@ class Player {
         this.active = false;
         this.spanPlayer.classList.remove('playing');
     }
-
-    changeGun() {
-        storeGun.forEach((gun, index) => {
-            let currentGun = null;
-
-            if (samePosition(this, gun)) {
-                currentGun = gun;
-                storeGun.splice(index, 1, this.stuff);
-                this.stuff = currentGun;
-
-                currentGun.dropped = true;
-            }
-        })
+    
+    changeGun(cell) {
+        let changeZone = cell.loot;
+        
+        cell.loot = this.stuff;
+        this.stuff = changeZone;
     }
 
     moveUp() {

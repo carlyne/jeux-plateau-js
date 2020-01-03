@@ -20,19 +20,20 @@ class Cell {
         this.divCell.classList.add('cell');
     }
 
-    addGun(gun) {
+    genereLoot(gun) {  
         this.divCell.appendChild(gun.spanGun);
-
-        gun.x = this.x;
-        gun.y = this.y;
-
         this.hasGun = true;
         this.loot = gun;
     }
-
-    removeGun(gun) {
+    
+    get removeGun() {
+        let gun = this.loot;
         this.divCell.removeChild(gun.spanGun);
-        this.hasGun = false;
+    }
+    
+    get addAGun() {
+        let gun = this.loot;
+        this.divCell.appendChild(gun.spanGun);
     }
 
     addPlayer(player) {
@@ -49,14 +50,6 @@ class Cell {
             this.hasPlayer = true;
         } else {
             this.hasPlayer = false;
-        }
-    }
-
-    get checkGun() {
-        if (this.loot === null) {
-            this.hasGun = false;
-        } else {
-            this.hasGun = true;
         }
     }
 
@@ -138,7 +131,7 @@ const randomGuns = (number = 4) => {
 
         cellArr.forEach((cell, index) => {
             if (!cell.isDisabled && !cell.hasGun) {
-                cell.addGun(guns[index]);
+                cell.genereLoot(guns[index]);
                 i++
             }
         })
